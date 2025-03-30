@@ -1,26 +1,39 @@
 # Task Manager
 
-A responsive React task management application that allows users to create, edit, delete, and organize tasks efficiently.
+A modern, responsive task management application built with React and Material UI, designed for efficient task organization with an intuitive drag-and-drop interface.
 
-## Features
+**Link:** [Task Manager](https://task-manager-binbag.vercel.app/)
 
-- Create, edit, delete, and mark tasks as complete
-- Filter tasks by status (All, Active, Completed)
-- Sort tasks by date or priority
-- Drag and drop to reorder tasks
-- Light and dark theme support
-- Responsive design for all screen sizes
-- Data persistence with localStorage
+## 🚀 Features
 
-## Tech Stack
+- **Task Management:** Create, edit, delete, and mark tasks as complete.
+- **Prioritization:** Assign priority levels (High, Medium, Low) with visual indicators.
+- **Filtering & Sorting:** Filter tasks by status (All, Active, Completed) and sort by date or priority.
+- **Drag & Drop:** Easily reorder tasks while preserving manual order.
+- **Dark/Light Mode:** Toggle between themes with persistent user preference.
+- **Responsive Design:** Optimized for mobile, tablet, and desktop.
+- **Data Persistence:** Tasks are stored in localStorage for seamless continuity.
+- **User Feedback:** Toast notifications for all actions, including confirmations for deletions.
 
-- React 19
-- Redux Toolkit for state management
-- Material UI for component styling
-- @hello-pangea/dnd for drag and drop functionality
-- react-hot-toast for notifications
+## 🛠 Tech Stack
 
-## Getting Started
+- **React 19** – Modern React features and hooks
+- **Redux Toolkit** – Centralized state management
+- **Material UI** – Consistent, responsive component styling
+- **@hello-pangea/dnd** – Drag-and-drop functionality
+- **react-hot-toast** – Non-intrusive notifications
+- **LocalStorage** – Data persistence between sessions
+
+## 🏗 Architecture
+
+This project follows a clean architecture with a clear separation of concerns:
+
+- **Components** – UI presentation
+- **Redux** – State management using the slice pattern
+- **Custom Hooks** – Abstraction of localStorage logic
+- **Middleware** – Side effects like notifications
+
+## 📦 Getting Started
 
 ### Prerequisites
 
@@ -29,16 +42,32 @@ A responsive React task management application that allows users to create, edit
 
 ### Installation
 
-1. Clone the repository
-2. Install dependencies:
+Clone the repository:
 
+```sh
+git clone https://github.com/your-repo/task-manager.git
+cd task-manager
+```
+
+Install dependencies:
+
+```sh
 npm install
+```
 
-3. Start the development server:
+Start the development server:
 
+```sh
 npm run dev
+```
 
-## Deployment
-Build the production version:
+## 🚀 Deployment
 
+To build and deploy the application:
+
+Generate the production build:
+
+```sh
 npm run build
+```
+
