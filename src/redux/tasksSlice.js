@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
-
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 // Helper to load initial tasks from localStorage
 // This way our tasks persist between page refreshes!
 const getInitialTasks = () => {
@@ -46,6 +45,7 @@ export const tasksSlice = createSlice({
       result.splice(destinationIndex, 0, removed);
       
       state.items = result;
+      state.sortBy = 'none';
       localStorage.setItem('tasks', JSON.stringify(state.items));
     },
     // Changes which tasks are visible based on completion status
@@ -62,26 +62,34 @@ export const tasksSlice = createSlice({
 export const { addTask, updateTask, deleteTask, reorderTasks, setFilter, setSortBy } = tasksSlice.actions;
 
 // This selector handles both filtering and sorting in one place
-export const selectTasks = (state) => {
-  const { items, filter, sortBy } = state.tasks;
-  
-  // Filter the tasks based on completion status
-  let filteredTasks = [...items];
-  if (filter === 'active') {
-    filteredTasks = items.filter(task => !task.completed);
-  } else if (filter === 'completed') {
-    filteredTasks = items.filter(task => task.completed);
-  }
-  
+const selectTasksItems = state => state.tasks.items;
+const selectTasksFilter = state => state.tasks.filter;
+const selectTasksSortBy = state => state.tasks.sortBy;
 
-  if (sortBy === 'priority') {
-    const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
-    filteredTasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
-  } else { 
-    filteredTasks.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+export const selectTasks = createSelector(
+  [selectTasksItems, selectTasksFilter, selectTasksSortBy],
+  (items, filter, sortBy) => {
+    // Filter the tasks
+    let filteredTasks = items;
+    if (filter === 'active') {
+      filteredTasks = items.filter(task => !task.completed);
+    } else if (filter === 'completed') {
+      filteredTasks = items.filter(task => task.completed);
+    } else {
+      filteredTasks = [...items]; // Only create a new array when necessary
+    }
+    
+    // Apply sorting (only if a sorting method is active)
+    if (sortBy === 'priority') {
+      const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
+      return [...filteredTasks].sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+    } else if (sortBy === 'date') { 
+      return [...filteredTasks].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+    
+    // No sorting (custom order from drag-and-drop)
+    return filteredTasks;
   }
-  
-  return filteredTasks;
-};
+);
 
 export default tasksSlice.reducer;

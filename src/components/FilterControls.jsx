@@ -15,6 +15,7 @@ function FilterControls() {
   const dispatch = useDispatch();
   const { filter, sortBy } = useSelector(state => state.tasks);
   const theme = useTheme();
+  const isSortActive = sortBy !== 'none' && sortBy !== null;
 
   return (
     <Paper elevation={2} sx={{ p: { xs: 2, md: 3 }, mb: 3 }}>
@@ -77,7 +78,7 @@ function FilterControls() {
             Sort:
           </Typography>
           <ToggleButtonGroup
-            value={sortBy}
+            value={isSortActive ? sortBy : null}
             exclusive
             onChange={(e, newSortBy) => {
               if (newSortBy !== null) {
